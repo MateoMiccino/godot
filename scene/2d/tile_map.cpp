@@ -412,6 +412,9 @@ void TileMap::update_dirty_quadrants() {
 				vs->canvas_item_set_light_mask(canvas_item, get_light_mask());
 				vs->canvas_item_set_z_index(canvas_item, z_index);
 
+				vs->canvas_item_set_default_texture_filter(canvas_item, RS::CanvasItemTextureFilter(CanvasItem::get_texture_filter()));
+				vs->canvas_item_set_default_texture_repeat(canvas_item, RS::CanvasItemTextureRepeat(CanvasItem::get_texture_repeat()));
+
 				q.canvas_items.push_back(canvas_item);
 
 				if (debug_shapes) {
@@ -1685,6 +1688,16 @@ void TileMap::set_clip_uv(bool p_enable) {
 
 bool TileMap::get_clip_uv() const {
 	return clip_uv;
+}
+
+void TileMap::set_texture_filter(TextureFilter p_texture_filter) {
+	CanvasItem::set_texture_filter(p_texture_filter);
+	_recreate_quadrants();
+}
+
+void TileMap::set_texture_repeat(CanvasItem::TextureRepeat p_texture_repeat) {
+	CanvasItem::set_texture_repeat(p_texture_repeat);
+	_recreate_quadrants();
 }
 
 String TileMap::get_configuration_warning() const {
