@@ -37,7 +37,6 @@
 #include "core/variant.h"
 #include "servers/audio/audio_effect.h"
 
-class AudioDriverDummy;
 class AudioStream;
 class AudioStreamSample;
 
@@ -134,7 +133,7 @@ class AudioDriverManager {
 	static AudioDriver *drivers[MAX_DRIVERS];
 	static int driver_count;
 
-	static AudioDriverDummy dummy_driver;
+	static AudioDriver* dummy_driver;
 
 public:
 	static void add_driver(AudioDriver *p_driver);

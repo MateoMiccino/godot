@@ -160,19 +160,16 @@ AudioDriver::AudioDriver() {
 #endif
 }
 
-AudioDriverDummy AudioDriverManager::dummy_driver;
-AudioDriver *AudioDriverManager::drivers[MAX_DRIVERS] = {
-	&AudioDriverManager::dummy_driver,
-};
-int AudioDriverManager::driver_count = 1;
+AudioDriver *AudioDriverManager::dummy_driver = NULL;
+AudioDriver *AudioDriverManager::drivers[MAX_DRIVERS];
+int AudioDriverManager::driver_count = 0;
 
 void AudioDriverManager::add_driver(AudioDriver *p_driver) {
 
 	ERR_FAIL_COND(driver_count >= MAX_DRIVERS);
-	drivers[driver_count - 1] = p_driver;
+	drivers[driver_count] = p_driver;
 
-	// Last driver is always our dummy driver
-	drivers[driver_count++] = &AudioDriverManager::dummy_driver;
+	driver_count++;
 }
 
 int AudioDriverManager::get_driver_count() {
@@ -181,6 +178,10 @@ int AudioDriverManager::get_driver_count() {
 }
 
 void AudioDriverManager::initialize(int p_driver) {
+	// Last driver is our dummy driver
+	dummy_driver = memnew(AudioDriverDummy);
+	drivers[driver_count++] = AudioDriverManager::dummy_driver;
+	
 	GLOBAL_DEF_RST("audio/enable_audio_input", false);
 	int failed_driver = -1;
 
