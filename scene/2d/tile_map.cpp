@@ -732,6 +732,16 @@ void TileMap::_recompute_rect_cache() {
 #endif
 }
 
+void TileMap::_update_textures() {
+	for (Map<PosKey, Quadrant>::Element *F = quadrant_map.front(); F; F = F->next()) {
+		Quadrant &q = F->get();
+		for (List<RID>::Element *E = q.canvas_items.front(); E; E = E->next()) {
+			RenderingServer::get_singleton()->canvas_item_set_default_texture_filter(E->get(), RS::CanvasItemTextureFilter(CanvasItem::get_texture_filter()));
+			RenderingServer::get_singleton()->canvas_item_set_default_texture_repeat(E->get(), RS::CanvasItemTextureRepeat(CanvasItem::get_texture_repeat()));
+		}
+	}
+}
+
 Map<TileMap::PosKey, TileMap::Quadrant>::Element *TileMap::_create_quadrant(const PosKey &p_qk) {
 	Transform2D xform;
 	//xform.set_origin(Point2(p_qk.x,p_qk.y)*cell_size*quadrant_size);
@@ -1692,12 +1702,12 @@ bool TileMap::get_clip_uv() const {
 
 void TileMap::set_texture_filter(TextureFilter p_texture_filter) {
 	CanvasItem::set_texture_filter(p_texture_filter);
-	_recreate_quadrants();
+	_update_textures();
 }
 
 void TileMap::set_texture_repeat(CanvasItem::TextureRepeat p_texture_repeat) {
 	CanvasItem::set_texture_repeat(p_texture_repeat);
-	_recreate_quadrants();
+	_update_textures();
 }
 
 String TileMap::get_configuration_warning() const {

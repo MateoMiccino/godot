@@ -210,6 +210,7 @@ private:
 	void _update_quadrant_space(const RID &p_space);
 	void _update_quadrant_transform();
 	void _recompute_rect_cache();
+	void _update_textures();
 
 	void _update_all_items_material_state();
 	_FORCE_INLINE_ void _update_item_material_state(const RID &p_canvas_item);
