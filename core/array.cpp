@@ -330,8 +330,9 @@ struct _ArrayVariantSort {
 	}
 };
 
-void Array::sort() {
+Array &Array::sort() {
 	_p->array.sort_custom<_ArrayVariantSort>();
+	return *this;
 }
 
 struct _ArrayVariantSortCustom {
@@ -348,13 +349,14 @@ struct _ArrayVariantSortCustom {
 		return res;
 	}
 };
-void Array::sort_custom(Object *p_obj, const StringName &p_function) {
-	ERR_FAIL_NULL(p_obj);
+Array &Array::sort_custom(Object *p_obj, const StringName &p_function) {
+	ERR_FAIL_NULL_V(p_obj, *this);
 
 	SortArray<Variant, _ArrayVariantSortCustom, true> avs;
 	avs.compare.obj = p_obj;
 	avs.compare.func = p_function;
 	avs.sort(_p->array.ptrw(), _p->array.size());
+	return *this;
 }
 
 void Array::shuffle() {
@@ -413,8 +415,9 @@ int Array::bsearch_custom(const Variant &p_value, Object *p_obj, const StringNam
 	return bisect(_p->array, p_value, p_before, less);
 }
 
-void Array::invert() {
+Array &Array::invert() {
 	_p->array.invert();
+	return *this;
 }
 
 void Array::push_front(const Variant &p_value) {
