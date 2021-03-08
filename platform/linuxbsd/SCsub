@@ -13,6 +13,8 @@ common_x11 = [
     "detect_prime_x11.cpp",
     "display_server_x11.cpp",
     "vulkan_context_x11.cpp",
+    "display_server_xcb.cpp",
+    "vulkan_context_xcb.cpp",
     "key_mapping_x11.cpp",
 ]
 

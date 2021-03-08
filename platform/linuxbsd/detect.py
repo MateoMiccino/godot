@@ -195,6 +195,9 @@ def configure(env):
     env.ParseConfig("pkg-config xrender --cflags --libs")
     env.ParseConfig("pkg-config xi --cflags --libs")
 
+    env.ParseConfig("pkg-config xcb --cflags --libs")
+    env.ParseConfig("pkg-config xcb-randr --cflags --libs")
+
     if env["touch"]:
         env.Append(CPPDEFINES=["TOUCH_ENABLED"])
 
@@ -339,7 +342,7 @@ def configure(env):
         env.ParseConfig("pkg-config zlib --cflags --libs")
 
     env.Prepend(CPPPATH=["#platform/linuxbsd"])
-    env.Append(CPPDEFINES=["X11_ENABLED", "UNIX_ENABLED"])
+    env.Append(CPPDEFINES=["XCB_ENABLED", "UNIX_ENABLED"])
 
     env.Append(CPPDEFINES=["VULKAN_ENABLED"])
     if not env["builtin_vulkan"]:

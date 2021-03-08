@@ -35,6 +35,8 @@
 
 #ifdef X11_ENABLED
 #include "display_server_x11.h"
+#elif XCB_ENABLED
+#include "display_server_xcb.h"
 #endif
 
 #ifdef HAVE_MNTENT
@@ -461,5 +463,7 @@ OS_LinuxBSD::OS_LinuxBSD() {
 
 #ifdef X11_ENABLED
 	DisplayServerX11::register_x11_driver();
+#elif XCB_ENABLED
+	DisplayServerXCB::register_xcb_driver();
 #endif
 }
